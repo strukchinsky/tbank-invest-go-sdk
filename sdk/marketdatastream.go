@@ -12,6 +12,9 @@ import (
 	"google.golang.org/grpc"
 )
 
+// MarketDataStream provides interface for managing subscriptions through
+// one stream instance. Channels with data will recieve market data from single underlying stream.
+// Subscription will be automatically cancelled when no more channels are listening for it.
 type MarketDataStream struct {
 	mu     sync.Mutex
 	ctx    context.Context
@@ -22,15 +25,21 @@ type MarketDataStream struct {
 	candleSubscriptions map[string][]*CandleSubscription
 }
 
+// CandleSubscription represents handler for candles stream.
 type CandleSubscription struct {
+	// InstrumentId stores unique instrument id that is used in candleSubscriptions as key
 	InstrumentId string
-	ch           chan *pb.Candle
+
+	// Private channel that recieves data from stream
+	ch chan *pb.Candle
 }
 
+// Recv returns read only channel with candles market data
 func (cs *CandleSubscription) Recv() <-chan *pb.Candle {
 	return cs.ch
 }
 
+// NewMarketDataStream returns a new [MarketDataStream] to create subscriptions.
 func (c *Client) NewMarketDataStream(ctx context.Context, logger Logger) (*MarketDataStream, error) {
 	ctx, cancel := context.WithCancel(ctx)
 
@@ -124,6 +133,8 @@ func (m *MarketDataStream) notifyCandle(c *pb.Candle) {
 	}
 }
 
+// SubscribeCandle creates subscriptions for candle with specified id. If subscription already
+// exists – only new channel will be created.
 func (m *MarketDataStream) SubscribeCandle(id string, waitingClose bool) (*CandleSubscription, error) {
 	m.mu.Lock()
 	defer m.mu.Unlock()
@@ -155,6 +166,8 @@ func (m *MarketDataStream) createCandleSubscription(id string) (*CandleSubscript
 	return s, !ok
 }
 
+// UnsubscribeCandle closes CandleSubscription and removes subscription from subscriptions map.
+// If no more subscription are present with same id – subscription will be cancelled.
 func (m *MarketDataStream) UnsubscribeCandle(s *CandleSubscription) error {
 	m.mu.Lock()
 	defer m.mu.Unlock()
