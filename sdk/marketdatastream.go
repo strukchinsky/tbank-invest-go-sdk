@@ -13,7 +13,7 @@ import (
 )
 
 // MarketDataStream provides interface for managing subscriptions through
-// one stream instance. Channels with data will recieve market data from single underlying stream.
+// one stream instance. Channels with data will receive market data from single underlying stream.
 // Subscription will be automatically cancelled when no more channels are listening for it.
 type MarketDataStream struct {
 	mu     sync.Mutex
@@ -30,7 +30,7 @@ type CandleSubscription struct {
 	// InstrumentId stores unique instrument id that is used in candleSubscriptions as key
 	InstrumentId string
 
-	// Private channel that recieves data from stream
+	// Private channel that receives data from stream
 	ch chan *pb.Candle
 }
 
@@ -110,7 +110,7 @@ func (m *MarketDataStream) consume(resp *pb.MarketDataResponse) {
 	}
 }
 
-// shutdown closes all channels - should be called only from listen (writting) function
+// shutdown closes all channels - should be called only from listen (writing) function
 func (m *MarketDataStream) shutdown() {
 	m.mu.Lock()
 	defer m.mu.Unlock()
