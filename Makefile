@@ -23,18 +23,22 @@ endif
 ifeq ($(UNAME), Linux)
 	sudo apt-get install protobuf-compiler
 endif
-# You can add instructions for other operating systems here, or use different
-# branching logic as appropriate.
+
+investAPI:
+	git subtree add --prefix investAPI https://github.com/RussianInvestments/investAPI.git main --squash
 
 # If $GOPATH/bin/protoc-gen-go does not exist, we'll run this command to install
 # it.
 $(PROTOC_GEN_GO):
 	go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 
-$(PROTO_NAMES): %: %.proto | $(PROTOC_GEN_GO) $(PROTOC)
+$(PROTO_NAMES): %: %.proto | $(PROTOC_GEN_GO) $(PROTOC) investAPI
 	protoc --plugin=$(GOPATH)/bin/protoc-gen-go --go_out=. -IinvestAPI/src/docs/contracts/ ./$<
 
 # This is a "phony" target - an alias for the above command, so "make compile"
 # still works.
 compile: $(PROTO_NAMES)
 	go mod tidy
+
+update: investAPI
+	git subtree pull --prefix investAPI https://github.com/RussianInvestments/investAPI.git main --squash
