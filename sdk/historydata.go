@@ -3,6 +3,7 @@ package investgo
 import (
 	"archive/zip"
 	"bytes"
+	"context"
 	"encoding/csv"
 	"fmt"
 	"io"
@@ -26,7 +27,7 @@ var (
 
 // DownloadHistoryData downloads zip file with all 1-minute candles from history-data endpoint and
 // returns it as slice of protobufs in investapi format.
-func (c *Client) DownloadHistoryData(figi string, year int) ([]*pb.HistoricCandle, error) {
+func (c *Client) DownloadHistoryData(ctx context.Context, figi string, year int) ([]*pb.HistoricCandle, error) {
 	url := fmt.Sprintf("https://invest-public-api.tinkoff.ru/history-data?figi=%s&year=%d", figi, year)
 
 	client := &http.Client{}
@@ -38,7 +39,7 @@ func (c *Client) DownloadHistoryData(figi string, year int) ([]*pb.HistoricCandl
 
 	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", c.token))
 
-	resp, err := client.Do(req)
+	resp, err := client.Do(req.WithContext(ctx))
 	if err != nil {
 		return nil, err
 	}
