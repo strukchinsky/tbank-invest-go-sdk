@@ -8,8 +8,7 @@ PROTOC_GEN_GO := $(GOPATH)/bin/protoc-gen-go
 PROTOC_GEN_GO_GPRC := $(GOPATH)/bin/protoc-gen-go-grpc
 
 PROTOC := $(shell which protoc)
-# If protoc isn't on the path, set it to a target that's never up to date, so
-# the install command always runs.
+# If protoc isn't on the path, set it to a target that's never up to date, so the install command always runs.
 ifeq ($(PROTOC),)
     PROTOC = must-rebuild
 endif
@@ -29,8 +28,7 @@ endif
 investAPI:
 	git subtree add --prefix investAPI https://github.com/RussianInvestments/investAPI.git main --squash
 
-# If $GOPATH/bin/protoc-gen-go does not exist, we'll run this command to install
-# it.
+# If $GOPATH/bin/protoc-gen-go does not exist, we'll run this command to install it.
 $(PROTOC_GEN_GO):
 	go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 
@@ -40,8 +38,6 @@ $(PROTOC_GEN_GO_GRPC):
 $(PROTO_NAMES): %: %.proto | $(PROTOC_GEN_GO) $(PROTOC_GEN_GO_GRPC) $(PROTOC) investAPI
 	protoc --plugin=$(GOPATH)/bin/protoc-gen-go --plugin=$(GOPATH)/bin/protoc-gen-go-grpc --go-grpc_out=. --go_out=. -IinvestAPI/src/docs/contracts/ ./$<
 
-# This is a "phony" target - an alias for the above command, so "make compile"
-# still works.
 generate: $(PROTO_NAMES)
 	go mod tidy
 
