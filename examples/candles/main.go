@@ -86,6 +86,6 @@ func main() {
 	}
 
 	for _, candle := range candles {
-		fmt.Println(candle.Close)
+		fmt.Printf("[%s] close=%d\n", candle.Time.AsTime().Format(dateLayout), candle.Close.Units)
 	}
 }
