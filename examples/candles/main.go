@@ -13,7 +13,7 @@ import (
 )
 
 func usage() {
-	log.Printf("Usage: candles [-e endpoint] -t token FIGI\n")
+	log.Printf("Usage: candles [-e endpoint] -t token INSTRUMENT_UID\n")
 	flag.PrintDefaults()
 }
 
@@ -26,7 +26,7 @@ type DateValue struct {
 	Date *time.Time
 }
 
-const dateLayout = "2006-01-02"
+const dateLayout = "2006-01-02 15:04"
 
 func (v DateValue) String() string {
 	if v.Date != nil {
@@ -48,7 +48,7 @@ func main() {
 	var endpoint = flag.String("e", "sandbox-invest-public-api.tinkoff.ru:443", "TBank API endpoint")
 	var token = flag.String("t", "", "TBank invest token (from https://www.tinkoff.ru/invest/settings/)")
 
-	var from = time.Now()
+	var from = time.Now().Add(-1 * time.Hour * 24)
 	flag.Var(&DateValue{&from}, "from", "")
 
 	var to = time.Now()
