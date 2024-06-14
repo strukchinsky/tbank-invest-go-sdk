@@ -6,6 +6,14 @@ import (
 	pb "github.com/floatdrop/tbank-invest-go-sdk"
 )
 
+func (c *Client) AllShares(ctx context.Context) ([]*pb.Share, error) {
+	return c.Shares(
+		ctx,
+		pb.InstrumentStatus_INSTRUMENT_STATUS_ALL,
+		pb.InstrumentExchangeType_INSTRUMENT_EXCHANGE_UNSPECIFIED,
+	)
+}
+
 func (c *Client) Shares(ctx context.Context, status pb.InstrumentStatus, exchange pb.InstrumentExchangeType) ([]*pb.Share, error) {
 	client := pb.NewInstrumentsServiceClient(c.conn)
 
