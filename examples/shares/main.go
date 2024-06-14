@@ -43,6 +43,6 @@ func main() {
 	}
 
 	for _, share := range shares {
-		fmt.Println(share.Name)
+		fmt.Println(share.Uid, share.Name)
 	}
 }

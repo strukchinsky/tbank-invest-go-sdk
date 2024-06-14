@@ -11,7 +11,7 @@ import (
 )
 
 // GetCandles splits interval into day chunks and loads HistoricCandle for it.
-func (c *Client) GetCandles(ctx context.Context, figi string, from time.Time, to time.Time, interval pb.CandleInterval) ([]*pb.HistoricCandle, error) {
+func (c *Client) GetCandles(ctx context.Context, uid string, from time.Time, to time.Time, interval pb.CandleInterval) ([]*pb.HistoricCandle, error) {
 	client := pb.NewMarketDataServiceClient(c.conn)
 
 	nextDay := from.Add(time.Hour * 24)
@@ -19,10 +19,10 @@ func (c *Client) GetCandles(ctx context.Context, figi string, from time.Time, to
 
 	for {
 		candles, err := client.GetCandles(ctx, &pb.GetCandlesRequest{
-			Figi:     &figi,
-			From:     timestamppb.New(from),
-			To:       timestamppb.New(nextDay),
-			Interval: interval,
+			InstrumentId: &uid,
+			From:         timestamppb.New(from),
+			To:           timestamppb.New(nextDay),
+			Interval:     interval,
 		})
 		if err != nil {
 			return nil, err
