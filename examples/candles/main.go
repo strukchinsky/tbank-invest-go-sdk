@@ -8,8 +8,8 @@ import (
 	"os"
 	"time"
 
-	investapi "github.com/floatdrop/tbank-invest-go-sdk"
-	investgo "github.com/floatdrop/tbank-invest-go-sdk/sdk"
+	pb "github.com/strukchinsky/tbank-invest-go-sdk"
+	investgo "github.com/strukchinsky/tbank-invest-go-sdk/sdk"
 )
 
 func usage() {
@@ -79,7 +79,7 @@ func main() {
 		args[0],
 		from,
 		to,
-		investapi.CandleInterval_CANDLE_INTERVAL_1_MIN,
+		pb.CandleInterval_CANDLE_INTERVAL_1_MIN,
 	)
 	if err != nil {
 		log.Fatal("Failed to get shares: ", err)

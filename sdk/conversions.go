@@ -3,7 +3,7 @@ package investgo
 import (
 	"math"
 
-	pb "github.com/floatdrop/tbank-invest-go-sdk"
+	pb "github.com/strukchinsky/tbank-invest-go-sdk"
 )
 
 // billion used for converting floats to Units and Nano parts

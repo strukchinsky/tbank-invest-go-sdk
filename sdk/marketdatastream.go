@@ -7,7 +7,7 @@ import (
 	"slices"
 	"sync"
 
-	pb "github.com/floatdrop/tbank-invest-go-sdk"
+	pb "github.com/strukchinsky/tbank-invest-go-sdk"
 
 	"google.golang.org/grpc"
 )

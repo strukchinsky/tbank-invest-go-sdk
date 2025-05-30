@@ -1,4 +1,4 @@
-module github.com/floatdrop/tbank-invest-go-sdk
+module github.com/strukchinsky/tbank-invest-go-sdk
 
 go 1.22.4
 

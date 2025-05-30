@@ -3,7 +3,7 @@ package investgo
 import (
 	"context"
 
-	pb "github.com/floatdrop/tbank-invest-go-sdk"
+	pb "github.com/strukchinsky/tbank-invest-go-sdk"
 )
 
 func (c *Client) AllShares(ctx context.Context) ([]*pb.Share, error) {

@@ -5,7 +5,7 @@ import (
 	"slices"
 	"time"
 
-	pb "github.com/floatdrop/tbank-invest-go-sdk"
+	pb "github.com/strukchinsky/tbank-invest-go-sdk"
 
 	"google.golang.org/protobuf/types/known/timestamppb"
 )

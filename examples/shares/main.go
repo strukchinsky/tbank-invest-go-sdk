@@ -7,7 +7,7 @@ import (
 	"log"
 	"os"
 
-	investgo "github.com/floatdrop/tbank-invest-go-sdk/sdk"
+	investgo "github.com/strukchinsky/tbank-invest-go-sdk/sdk"
 )
 
 func usage() {
