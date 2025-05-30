@@ -28,30 +28,30 @@ func (c *Client) Shares(ctx context.Context, status pb.InstrumentStatus, exchang
 	return response.Instruments, nil
 }
 
-func ByFigi(figi string) pb.InstrumentRequest {
-	return pb.InstrumentRequest{
+func ByFigi(figi string) *pb.InstrumentRequest {
+	return &pb.InstrumentRequest{
 		IdType: pb.InstrumentIdType_INSTRUMENT_ID_TYPE_FIGI,
 		Id:     figi,
 	}
 }
 
-func ByTicker(ticker string, classCode string) pb.InstrumentRequest {
-	return pb.InstrumentRequest{
+func ByTicker(ticker string, classCode string) *pb.InstrumentRequest {
+	return &pb.InstrumentRequest{
 		IdType:    pb.InstrumentIdType_INSTRUMENT_ID_TYPE_TICKER,
 		Id:        ticker,
 		ClassCode: &classCode,
 	}
 }
 
-func ByUid(uid string) pb.InstrumentRequest {
-	return pb.InstrumentRequest{
+func ByUid(uid string) *pb.InstrumentRequest {
+	return &pb.InstrumentRequest{
 		IdType: pb.InstrumentIdType_INSTRUMENT_ID_TYPE_UID,
 		Id:     uid,
 	}
 }
 
-func ByPositionUid(positionUid string) pb.InstrumentRequest {
-	return pb.InstrumentRequest{
+func ByPositionUid(positionUid string) *pb.InstrumentRequest {
+	return &pb.InstrumentRequest{
 		IdType: pb.InstrumentIdType_INSTRUMENT_ID_TYPE_POSITION_UID,
 		Id:     positionUid,
 	}

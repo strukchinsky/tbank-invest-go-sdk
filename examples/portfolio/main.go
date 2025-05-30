@@ -64,10 +64,7 @@ func main() {
 
 	fmt.Println("Portfolio structure:")
 	for _, position := range portfolio.Positions {
-		instrument, err := client.InstrumentBy(context.Background(), &pb.InstrumentRequest{
-			IdType: pb.InstrumentIdType_INSTRUMENT_ID_TYPE_UID,
-			Id:     position.InstrumentUid,
-		})
+		instrument, err := client.InstrumentBy(context.Background(), investgo.ByUid(position.InstrumentUid))
 		if err != nil {
 			log.Fatal("Failed to get instrument info: ", err)
 		}
