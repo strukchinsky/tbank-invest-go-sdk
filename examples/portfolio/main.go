@@ -63,8 +63,18 @@ func main() {
 	}
 
 	fmt.Println("Portfolio structure:")
-	fmt.Println("FIGI         Quantity")
 	for _, position := range portfolio.Positions {
-		fmt.Printf("%s %f\n", position.Figi, investgo.QuotationToFloat(position.Quantity))
+		instrument, err := client.InstrumentBy(context.Background(), &pb.InstrumentRequest{
+			IdType: pb.InstrumentIdType_INSTRUMENT_ID_TYPE_UID,
+			Id:     position.InstrumentUid,
+		})
+		if err != nil {
+			log.Fatal("Failed to get instrument info: ", err)
+		}
+
+		positionValue := investgo.QuotationToFloat(position.Quantity) * investgo.MoneyValueToFloat(position.CurrentPrice)
+		percentage := positionValue / investgo.MoneyValueToFloat(portfolio.TotalAmountPortfolio)
+
+		fmt.Printf("(%05.2f%%) %s\n", 100*percentage, instrument.Name)
 	}
 }

@@ -67,3 +67,14 @@ func (c *Client) ShareBy(ctx context.Context, request *pb.InstrumentRequest) (*p
 
 	return response.Instrument, nil
 }
+
+func (c *Client) InstrumentBy(ctx context.Context, request *pb.InstrumentRequest) (*pb.Instrument, error) {
+	client := pb.NewInstrumentsServiceClient(c.conn)
+
+	response, err := client.GetInstrumentBy(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+
+	return response.Instrument, nil
+}

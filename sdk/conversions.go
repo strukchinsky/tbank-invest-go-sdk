@@ -20,3 +20,8 @@ func FloatToQuotation(f float64) *pb.Quotation {
 	openUnits, openNanos := math.Modf(f)
 	return &pb.Quotation{Units: int64(openUnits), Nano: int32(openNanos * float64(billion))}
 }
+
+// MoneyToFloat converts MoneyValue type to float64 with proper scaling
+func MoneyValueToFloat(m *pb.MoneyValue) float64 {
+	return float64(m.Units) + float64(m.Nano)/float64(billion)
+}
