@@ -11,7 +11,7 @@
 
 
 #### TradesStream
-Stream сделок пользователя
+TradesStream — стрим сделок пользователя
 
 - Тело запроса — [TradesStreamRequest](#tradesstreamrequest)
 
@@ -19,7 +19,8 @@ Stream сделок пользователя
 
 
 #### OrderStateStream
-Stream поручений пользователя. Перед работой прочитайте [статью](https://russianinvestments.github.io/investAPI/orders_state_stream/).
+OrderStateStream — стрим поручений пользователя
+Перед работой прочитайте [статью](/invest/services/orders/orders_state_stream).
 
 - Тело запроса — [OrderStateStreamRequest](#orderstatestreamrequest)
 
@@ -29,23 +30,32 @@ Stream поручений пользователя. Перед работой п
 
 
 ## OrdersService
-Сервис предназначен для работы с торговыми поручениями:</br> **1**.
-выставление;</br> **2**. отмена;</br> **3**. получение статуса;</br> **4**.
-расчёт полной стоимости;</br> **5**. получение списка заявок.
+Сервис предназначен для работы с торговыми поручениями:<br/> **1**.
+выставление;<br/> **2**. отмена;<br/> **3**. получение статуса;<br/> **4**.
+расчет полной стоимости;<br/> **5**. получение списка заявок.
 
 ###Методы сервиса
 
 
 #### PostOrder
-Метод выставления заявки.
+PostOrder — выставить заявку
 
 - Тело запроса — [PostOrderRequest](#postorderrequest)
 
 - Тело ответа — [PostOrderResponse](#postorderresponse)
 
 
+#### PostOrderAsync
+PostOrderAsync — выставить заявку асинхронным методом
+Особенности работы приведены в [статье](/invest/services/orders/async).
+
+- Тело запроса — [PostOrderAsyncRequest](#postorderasyncrequest)
+
+- Тело ответа — [PostOrderAsyncResponse](#postorderasyncresponse)
+
+
 #### CancelOrder
-Метод отмены биржевой заявки.
+CancelOrder — отменить заявку
 
 - Тело запроса — [CancelOrderRequest](#cancelorderrequest)
 
@@ -53,7 +63,7 @@ Stream поручений пользователя. Перед работой п
 
 
 #### GetOrderState
-Метод получения статуса торгового поручения.
+GetOrderState — получить статус торгового поручения
 
 - Тело запроса — [GetOrderStateRequest](#getorderstaterequest)
 
@@ -61,7 +71,7 @@ Stream поручений пользователя. Перед работой п
 
 
 #### GetOrders
-Метод получения списка активных заявок по счёту.
+GetOrders — получить список активных заявок по счету
 
 - Тело запроса — [GetOrdersRequest](#getordersrequest)
 
@@ -69,7 +79,7 @@ Stream поручений пользователя. Перед работой п
 
 
 #### ReplaceOrder
-Метод изменения выставленной заявки.
+ReplaceOrder — изменить выставленную заявку
 
 - Тело запроса — [ReplaceOrderRequest](#replaceorderrequest)
 
@@ -77,7 +87,7 @@ Stream поручений пользователя. Перед работой п
 
 
 #### GetMaxLots
-расчет количества доступных для покупки/продажи лотов
+GetMaxLots — расчет количества доступных для покупки/продажи лотов
 
 - Тело запроса — [GetMaxLotsRequest](#getmaxlotsrequest)
 
@@ -85,7 +95,7 @@ Stream поручений пользователя. Перед работой п
 
 
 #### GetOrderPrice
-Метод получения предварительной стоимости для лимитной заявки
+GetOrderPrice — получить предварительную стоимость для лимитной заявки
 
 - Тело запроса — [GetOrderPriceRequest](#getorderpricerequest)
 
@@ -105,6 +115,7 @@ Stream поручений пользователя. Перед работой п
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | accounts | Массив объектов [string](#string) | Идентификаторы счетов. |
+| ping_delay_ms |  [int32](#int32) | Задержка (пинг) сообщений: 5000–180 000 миллисекунд. Значение по умолчанию — 120 000. |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -117,6 +128,7 @@ Stream поручений пользователя. Перед работой п
 | ----- | ---- | ----------- |
 | order_trades |  [OrderTrades](#ordertrades) | Информация об исполнении торгового поручения. |
 | ping |  [Ping](#ping) | Проверка активности стрима. |
+| subscription |  [SubscriptionResponse](#subscriptionresponse) | Ответ на запрос на подписку. |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -132,7 +144,7 @@ Stream поручений пользователя. Перед работой п
 | direction |  [OrderDirection](#orderdirection) | Направление сделки. |
 | figi |  [string](#string) | Figi-идентификатор инструмента. |
 | trades | Массив объектов [OrderTrade](#ordertrade) | Массив сделок. |
-| account_id |  [string](#string) | Идентификатор счёта. |
+| account_id |  [string](#string) | Идентификатор счета. |
 | instrument_uid |  [string](#string) | UID идентификатор инструмента. |
  <!-- end Fields -->
  <!-- end HasFields -->
@@ -162,12 +174,13 @@ Stream поручений пользователя. Перед работой п
 | quantity |  [int64](#int64) | Количество лотов. |
 | price |  [Quotation](#quotation) | Цена за 1 инструмент. Для получения стоимости лота требуется умножить на лотность инструмента. Игнорируется для рыночных поручений. |
 | direction |  [OrderDirection](#orderdirection) | Направление операции. |
-| account_id |  [string](#string) | Номер счёта. |
+| account_id |  [string](#string) | Номер счета. |
 | order_type |  [OrderType](#ordertype) | Тип заявки. |
 | order_id |  [string](#string) | Идентификатор запроса выставления поручения для целей идемпотентности в формате UID. Максимальная длина 36 символов. |
 | instrument_id |  [string](#string) | Идентификатор инструмента, принимает значения Figi или Instrument_uid. |
 | time_in_force |  [TimeInForceType](#timeinforcetype) | Алгоритм исполнения поручения, применяется только к лимитной заявке. |
 | price_type |  [PriceType](#pricetype) | Тип цены. |
+| confirm_margin_trade |  [bool](#bool) | Согласие на выставление заявки, которая может привести к непокрытой позиции, по умолчанию false. |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -187,7 +200,7 @@ Stream поручений пользователя. Перед работой п
 | total_order_amount |  [MoneyValue](#moneyvalue) | Итоговая стоимость заявки, включающая все комиссии. |
 | initial_commission |  [MoneyValue](#moneyvalue) | Начальная комиссия. Комиссия рассчитанная при выставлении заявки. |
 | executed_commission |  [MoneyValue](#moneyvalue) | Фактическая комиссия по итогам исполнения заявки. |
-| aci_value |  [MoneyValue](#moneyvalue) | Значение НКД (накопленного купонного дохода) на дату. Подробнее: [НКД при выставлении торговых поручений](https://russianinvestments.github.io/investAPI/head-orders#coupon) |
+| aci_value |  [MoneyValue](#moneyvalue) | Значение НКД (накопленного купонного дохода) на дату. Подробнее: [НКД при выставлении торговых поручений](./head-orders#coupon) |
 | figi |  [string](#string) | Figi-идентификатор инструмента. |
 | direction |  [OrderDirection](#orderdirection) | Направление сделки. |
 | initial_security_price |  [MoneyValue](#moneyvalue) | Начальная цена за 1 инструмент. Для получения стоимости лота требуется умножить на лотность инструмента. |
@@ -201,14 +214,48 @@ Stream поручений пользователя. Перед работой п
  <!-- end HasFields -->
 
  
+#### PostOrderAsyncRequest
+Запрос выставления асинхронного торгового поручения.
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| instrument_id |  [string](#string) | Идентификатор инструмента, принимает значения Figi или Instrument_uid. |
+| quantity |  [int64](#int64) | Количество лотов. |
+| price |  [Quotation](#quotation) | Цена за 1 инструмент. Для получения стоимости лота требуется умножить на лотность инструмента. Игнорируется для рыночных поручений. |
+| direction |  [OrderDirection](#orderdirection) | Направление операции. |
+| account_id |  [string](#string) | Номер счета. |
+| order_type |  [OrderType](#ordertype) | Тип заявки. |
+| order_id |  [string](#string) | Идентификатор запроса выставления поручения для целей идемпотентности в формате UID. Максимальная длина 36 символов. |
+| time_in_force |  [TimeInForceType](#timeinforcetype) | Алгоритм исполнения поручения, применяется только к лимитной заявке. |
+| price_type |  [PriceType](#pricetype) | Тип цены. |
+| confirm_margin_trade |  [bool](#bool) | Согласие на выставление заявки, которая может привести к непокрытой позиции, по умолчанию false. |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+ 
+#### PostOrderAsyncResponse
+Результат выставления асинхронного торгового поручения.
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| order_request_id |  [string](#string) | Идентификатор ключа идемпотентности, переданный клиентом, в формате UID. Максимальная длина 36 символов. |
+| execution_report_status |  [OrderExecutionReportStatus](#orderexecutionreportstatus) | Текущий статус заявки. |
+| trade_intent_id |  [string](#string) | Идентификатор торгового поручения. |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+ 
 #### CancelOrderRequest
 Запрос отмены торгового поручения.
 
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
-| account_id |  [string](#string) | Номер счёта. |
+| account_id |  [string](#string) | Номер счета. |
 | order_id |  [string](#string) | Идентификатор заявки. |
+| order_id_type |  [OrderIdType](#orderidtype) | Тип идентификатора заявки. |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -231,9 +278,10 @@ Stream поручений пользователя. Перед работой п
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
-| account_id |  [string](#string) | Номер счёта. |
+| account_id |  [string](#string) | Номер счета. |
 | order_id |  [string](#string) | Идентификатор заявки. |
 | price_type |  [PriceType](#pricetype) | Тип цены. |
+| order_id_type |  [OrderIdType](#orderidtype) | Тип идентификатора заявки. |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -244,7 +292,7 @@ Stream поручений пользователя. Перед работой п
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
-| account_id |  [string](#string) | Номер счёта. |
+| account_id |  [string](#string) | Номер счета. |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -316,6 +364,7 @@ Stream поручений пользователя. Перед работой п
 | quantity |  [int64](#int64) | Количество лотов. |
 | price |  [Quotation](#quotation) | Цена за 1 инструмент. |
 | price_type |  [PriceType](#pricetype) | Тип цены. |
+| confirm_margin_trade |  [bool](#bool) | Согласие на выставление заявки, которая может привести к непокрытой позиции, по умолчанию false. |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -436,7 +485,22 @@ Stream поручений пользователя. Перед работой п
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | accounts | Массив объектов [string](#string) | Идентификаторы счетов. |
-| ping_delay_millis |  [int32](#int32) | Задержка пинг сообщений milliseconds 1000-120000, default 120000 |
+| ping_delay_millis |  [int32](#int32) | Задержка (пинг) сообщений:  1000-120 000 миллисекунд. Значение по умолчанию — 120 000. |
+ <!-- end Fields -->
+ <!-- end HasFields -->
+
+ 
+#### SubscriptionResponse
+Информация по подпискам
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| tracking_id |  [string](#string) | Уникальный идентификатор запроса, подробнее: [tracking_id](./grpc#tracking-id). |
+| status |  [ResultSubscriptionStatus](#resultsubscriptionstatus) | Статус подписки. |
+| stream_id |  [string](#string) | Идентификатор открытого соединения |
+| accounts | Массив объектов [string](#string) | Идентификаторы счетов. |
+| error |  [ErrorDetail](#errordetail) |  |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -449,22 +513,7 @@ Stream поручений пользователя. Перед работой п
 | ----- | ---- | ----------- |
 | order_state |  [OrderStateStreamResponse.OrderState](#orderstatestreamresponseorderstate) | Информация об исполнении торгового поручения. |
 | ping |  [Ping](#ping) | Проверка активности стрима. |
-| subscription |  [OrderStateStreamResponse.SubscriptionResponse](#orderstatestreamresponsesubscriptionresponse) | Ответ на запрос на подписку. |
- <!-- end Fields -->
- <!-- end HasFields -->
-
- 
-#### OrderStateStreamResponse.SubscriptionResponse
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| tracking_id |  [string](#string) | Уникальный идентификатор запроса, подробнее: [tracking_id](https://russianinvestments.github.io/investAPI/grpc#tracking-id). |
-| status |  [ResultSubscriptionStatus](#resultsubscriptionstatus) | Статус подписки. |
-| stream_id |  [string](#string) | Идентификатор открытого соединения |
-| accounts | Массив объектов [string](#string) | Идентификаторы счетов. |
-| error |  [ErrorDetail](#errordetail) |  |
+| subscription |  [SubscriptionResponse](#subscriptionresponse) | Ответ на запрос на подписку. |
  <!-- end Fields -->
  <!-- end HasFields -->
 
@@ -475,33 +524,33 @@ Stream поручений пользователя. Перед работой п
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
-| order_id |  [string](#string) | Биржевой идентификатор заявки |
+| order_id |  [string](#string) | Биржевой идентификатор заявки. |
 | order_request_id |  [string](#string) | Идентификатор ключа идемпотентности, переданный клиентом, в формате UID. Максимальная длина 36 символов. |
-| client_code |  [string](#string) | Код клиента на бирже |
-| created_at |  [google.protobuf.Timestamp](#googleprotobuftimestamp) | Дата создания заявки |
-| execution_report_status |  [OrderExecutionReportStatus](#orderexecutionreportstatus) | Статус заявки |
-| status_info |  [OrderStateStreamResponse.StatusCauseInfo](#orderstatestreamresponsestatuscauseinfo) | Дополнительная информация по статусу |
-| ticker |  [string](#string) | Тикер инструмента |
-| class_code |  [string](#string) | Класс-код (секция торгов) |
-| lot_size |  [int32](#int32) | Лотность инструмента заявки |
-| direction |  [OrderDirection](#orderdirection) | Направление заявки |
-| time_in_force |  [TimeInForceType](#timeinforcetype) | Алгоритм исполнения поручения |
-| order_type |  [OrderType](#ordertype) | Тип заявки |
-| account_id |  [string](#string) | Номер счета |
-| initial_order_price |  [MoneyValue](#moneyvalue) | Начальная цена заявки |
-| order_price |  [MoneyValue](#moneyvalue) | Цена выставления заявки |
-| amount |  [MoneyValue](#moneyvalue) | Предрассчитанная стоимость полной заявки |
-| executed_order_price |  [MoneyValue](#moneyvalue) | Исполненная средняя цена одного инструмента в заявке |
-| currency |  [string](#string) | Валюта исполнения |
-| lots_requested |  [int64](#int64) | Запрошено лотов |
-| lots_executed |  [int64](#int64) | Исполнено лотов |
-| lots_left |  [int64](#int64) | Число неисполненных лотов по заявке |
-| lots_cancelled |  [int64](#int64) | Отмененные лоты |
-| marker |  [OrderStateStreamResponse.MarkerType](#orderstatestreamresponsemarkertype) | Спецсимвол |
-| trades | Массив объектов [OrderTrade](#ordertrade) | Список сделок |
-| completion_time |  [google.protobuf.Timestamp](#googleprotobuftimestamp) | Время исполнения заявки |
-| exchange |  [string](#string) | Код биржи |
-| instrument_uid |  [string](#string) | UID идентификатор инструмента |
+| client_code |  [string](#string) | Код клиента на бирже. |
+| created_at |  [google.protobuf.Timestamp](#googleprotobuftimestamp) | Дата создания заявки. |
+| execution_report_status |  [OrderExecutionReportStatus](#orderexecutionreportstatus) | Статус заявки. |
+| status_info |  [OrderStateStreamResponse.StatusCauseInfo](#orderstatestreamresponsestatuscauseinfo) | Дополнительная информация по статусу. |
+| ticker |  [string](#string) | Тикер инструмента. |
+| class_code |  [string](#string) | Класс-код (секция торгов). |
+| lot_size |  [int32](#int32) | Лотность инструмента заявки. |
+| direction |  [OrderDirection](#orderdirection) | Направление заявки. |
+| time_in_force |  [TimeInForceType](#timeinforcetype) | Алгоритм исполнения поручения. |
+| order_type |  [OrderType](#ordertype) | Тип заявки. |
+| account_id |  [string](#string) | Номер счета. |
+| initial_order_price |  [MoneyValue](#moneyvalue) | Начальная цена заявки. |
+| order_price |  [MoneyValue](#moneyvalue) | Цена выставления заявки. |
+| amount |  [MoneyValue](#moneyvalue) | Предрассчитанная стоимость полной заявки. |
+| executed_order_price |  [MoneyValue](#moneyvalue) | Исполненная цена заявки. |
+| currency |  [string](#string) | Валюта исполнения. |
+| lots_requested |  [int64](#int64) | Запрошено лотов. |
+| lots_executed |  [int64](#int64) | Исполнено лотов. |
+| lots_left |  [int64](#int64) | Число неисполненных лотов по заявке. |
+| lots_cancelled |  [int64](#int64) | Отмененные лоты. |
+| marker |  [OrderStateStreamResponse.MarkerType](#orderstatestreamresponsemarkertype) | Спецсимвол. |
+| trades | Массив объектов [OrderTrade](#ordertrade) | Список сделок. |
+| completion_time |  [google.protobuf.Timestamp](#googleprotobuftimestamp) | Время исполнения заявки. |
+| exchange |  [string](#string) | Код биржи. |
+| instrument_uid |  [string](#string) | UID идентификатор инструмента. |
  <!-- end Fields -->
  <!-- end HasFields -->
  <!-- end messages -->
@@ -558,6 +607,18 @@ Stream поручений пользователя. Перед работой п
 | TIME_IN_FORCE_DAY | 1 | Заявка действует до конца торгового дня. Значение по умолчанию |
 | TIME_IN_FORCE_FILL_AND_KILL | 2 | Если в момент выставления возможно исполнение заявки(в т.ч. частичное), заявка будет исполнена или отменена сразу после выставления |
 | TIME_IN_FORCE_FILL_OR_KILL | 3 | Если в момент выставления возможно полное исполнение заявки, заявка будет исполнена или отменена сразу после выставления, недоступно для срочного рынка и торговли по выходным |
+
+
+
+
+#### OrderIdType
+Тип идентификатора заявки
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| ORDER_ID_TYPE_UNSPECIFIED | 0 | Тип идентификатора не указан. |
+| ORDER_ID_TYPE_EXCHANGE | 1 | Биржевой идентификатор |
+| ORDER_ID_TYPE_REQUEST | 2 | Ключ идемпотентности, переданный клиентом |
 
 
 
@@ -624,7 +685,7 @@ Stream поручений пользователя. Перед работой п
 | SUBSCRIPTION_STATUS_OK | 1 | Подписка успешно установлена. |
 | SUBSCRIPTION_STATUS_ERROR | 13 | Ошибка подписки |
 
-#### ErrorDetail
+### ErrorDetail
 Описание ошибки
 
 | Field | Type | Description |
@@ -634,7 +695,7 @@ Stream поручений пользователя. Перед работой п
 
 ### Про тип цены
 
-В T-Invest API ответ в методах для фьючерсов и облигаций может возвращаться как в валюте расчетов, так и в пунктах цены.
+В T-INVEST API ответ в методах для фьючерсов и облигаций может возвращаться как в валюте расчетов, так и в пунктах цены.
 Стоимость пункта может меняться в зависимости от курсовой разницы.
 Про конвертацию пунктов в валюту можно почитать [тут](https://russianinvestments.github.io/investAPI/points/)
 
