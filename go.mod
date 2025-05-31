@@ -7,7 +7,7 @@ require (
 	github.com/govalues/money v0.2.4
 	golang.org/x/oauth2 v0.18.0
 	google.golang.org/genproto/googleapis/api v0.0.0-20240610135401-a8a62080eff3
-	google.golang.org/grpc v1.64.0
+	google.golang.org/grpc v1.64.1
 	google.golang.org/protobuf v1.34.1
 )
 
