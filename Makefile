@@ -42,4 +42,4 @@ generate: $(PROTO_NAMES)
 	go mod tidy
 
 update: investAPI
-	git subtree pull --prefix investAPI https://github.com/strukchinsky/investAPI-contracts.git main --squash
+	git subtree pull --prefix contracts https://github.com/strukchinsky/investAPI-contracts.git main --squash
