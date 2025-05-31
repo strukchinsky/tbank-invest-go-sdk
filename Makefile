@@ -26,7 +26,7 @@ ifeq ($(UNAME), Linux)
 endif
 
 investAPI:
-	git subtree add --prefix investAPI https://github.com/strukchinsky/investAPI-contracts.git main --squash
+	git subtree add --prefix contracts https://github.com/strukchinsky/investAPI-contracts.git main --squash
 
 # If $GOPATH/bin/protoc-gen-go does not exist, we'll run this command to install it.
 $(PROTOC_GEN_GO):
