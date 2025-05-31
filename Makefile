@@ -25,16 +25,8 @@ ifeq ($(UNAME), Linux)
 	sudo apt-get install protobuf-compiler
 endif
 
-contracts:
-	git remote add -f investapi-upstream git@github.com:RussianInvestments/investAPI.git
-	git checkout -b upstream/investapi investapi-upstream/main
-
-	# split off subdir of tracking branch into separate branch
-	git subtree split -q --squash --prefix=src/docs/contracts --annotate="[investAPI] " --rejoin -b merging/investapi
-
-	# add separate branch as subdirectory on master.
-	git checkout -
-	git subtree add --prefix=contracts --squash merging/investapi
+investAPI:
+	git subtree add --prefix investAPI https://github.com/strukchinsky/investAPI-contracts.git main --squash
 
 # If $GOPATH/bin/protoc-gen-go does not exist, we'll run this command to install it.
 $(PROTOC_GEN_GO):
@@ -49,14 +41,5 @@ $(PROTO_NAMES): %: %.proto | $(PROTOC_GEN_GO) $(PROTOC_GEN_GO_GRPC) $(PROTOC) in
 generate: $(PROTO_NAMES)
 	go mod tidy
 
-update: contracts
-	# switch back to tracking branch, fetch & rebase.
-	git checkout upstream/investapi
-	git pull investapi-upstream/main
-
-	# update the separate branch with changes from upstream
-	git subtree split -q --prefix=src/docs/contracts --annotate="[investAPI] " --rejoin -b merging/investapi
-
-	# switch back to master and use subtree merge to update the subdirectory
-	git checkout -
-	git subtree merge -q --prefix=contracts --squash merging/investapi
+update: investAPI
+	git subtree pull --prefix investAPI https://github.com/strukchinsky/investAPI-contracts.git main --squash
