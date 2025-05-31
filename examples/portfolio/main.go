@@ -69,9 +69,12 @@ func main() {
 			log.Fatal("Failed to get instrument info: ", err)
 		}
 
-		positionValue := investgo.QuotationToFloat(position.Quantity) * investgo.MoneyValueToFloat(position.CurrentPrice)
-		percentage := positionValue / investgo.MoneyValueToFloat(portfolio.TotalAmountPortfolio)
+		positionQuantity, _ := position.Quantity.Decimal().Float64()
+		positionPrice, _ := position.CurrentPrice.Amount().Decimal().Float64()
+		positionValue := positionQuantity * positionPrice
+		total, _ := portfolio.TotalAmountPortfolio.Amount().Decimal().Float64()
+		percentage := positionValue * total
 
-		fmt.Printf("(%05.2f%%) %s\n", 100*percentage, instrument.Name)
+		fmt.Printf("(%05.2f%%) %s\n", percentage*100.0, instrument.Name)
 	}
 }

@@ -1,9 +1,17 @@
 package investapi
 
-import "github.com/govalues/money"
+import (
+	"fmt"
 
-func (m *MoneyValue) Amount() (money.Amount, error) {
-	return money.NewAmountFromInt64(m.Currency, m.Units, int64(m.Nano), 9)
+	"github.com/govalues/money"
+)
+
+func (m *MoneyValue) Amount() money.Amount {
+	amount, err := money.NewAmountFromInt64(m.Currency, m.Units, int64(m.Nano), 9)
+	if err != nil {
+		panic(fmt.Sprintf("NewAmountFromInt64(%v, %v, %v, %v) failed with error %v", m.Currency, m.Units, int64(m.Nano), 9, err))
+	}
+	return amount
 }
 
 func NewMoneyValue(a money.Amount) *MoneyValue {
