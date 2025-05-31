@@ -2,8 +2,10 @@ package investgo
 
 import (
 	"context"
+	"time"
 
 	pb "github.com/strukchinsky/tbank-invest-go-sdk"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 func (c *Client) AllShares(ctx context.Context) ([]*pb.Share, error) {
@@ -77,4 +79,20 @@ func (c *Client) InstrumentBy(ctx context.Context, request *pb.InstrumentRequest
 	}
 
 	return response.Instrument, nil
+}
+
+func (c *Client) TradingSchedules(ctx context.Context, exchange string, from, to time.Time) ([]*pb.TradingSchedule, error) {
+	client := pb.NewInstrumentsServiceClient(c.conn)
+
+	response, err := client.TradingSchedules(ctx, &pb.TradingSchedulesRequest{
+		Exchange: &exchange,
+		From:     timestamppb.New(from),
+		To:       timestamppb.New(to),
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return response.Exchanges, nil
 }
