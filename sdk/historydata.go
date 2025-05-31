@@ -14,6 +14,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/govalues/decimal"
 	pb "github.com/strukchinsky/tbank-invest-go-sdk"
 
 	"google.golang.org/protobuf/types/known/timestamppb"
@@ -133,33 +134,33 @@ func parseCsv(reader io.Reader) []*pb.HistoricCandle {
 		}
 		data.Time = timestamppb.New(t)
 
-		openPrice, err := strconv.ParseFloat(line[2], 64)
+		openPrice, err := decimal.Parse(line[2])
 		if err != nil {
 			log.Printf("Failed to parse open price from '%s'", line[2])
 			continue
 		}
-		data.Open = FloatToQuotation(openPrice)
+		data.Open = pb.NewQuotation(openPrice)
 
-		closePrice, err := strconv.ParseFloat(line[3], 64)
+		closePrice, err := decimal.Parse(line[3])
 		if err != nil {
 			log.Printf("Failed to parse close price from '%s'", line[3])
 			continue
 		}
-		data.Close = FloatToQuotation(closePrice)
+		data.Close = pb.NewQuotation(closePrice)
 
-		highPrice, err := strconv.ParseFloat(line[4], 64)
+		highPrice, err := decimal.Parse(line[4])
 		if err != nil {
 			log.Printf("Failed to parse high price from '%s'", line[4])
 			continue
 		}
-		data.High = FloatToQuotation(highPrice)
+		data.High = pb.NewQuotation(highPrice)
 
-		lowPrice, err := strconv.ParseFloat(line[5], 64)
+		lowPrice, err := decimal.Parse(line[5])
 		if err != nil {
 			log.Printf("Failed to parse low price from '%s'", line[5])
 			continue
 		}
-		data.Low = FloatToQuotation(lowPrice)
+		data.Low = pb.NewQuotation(lowPrice)
 
 		volume, err := strconv.ParseInt(line[6], 10, 64)
 		if err != nil {
