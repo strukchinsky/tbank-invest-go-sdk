@@ -34,8 +34,8 @@ type CandleSubscription struct {
 	ch chan *pb.Candle
 }
 
-// Recv returns read only channel with candles market data
-func (cs *CandleSubscription) Recv() <-chan *pb.Candle {
+// RecvChan returns read only channel with candles market data
+func (cs *CandleSubscription) RecvChan() <-chan *pb.Candle {
 	return cs.ch
 }
 
